@@ -7,12 +7,22 @@ int shift;
 char *unencryptedPhrase;
 
 void configureCipher(){
-	printf("Would you like to encrypt or decrypt?\n");
-	printf("1. Encrypt\n");
-	printf("2. Decrypt\n");
-	printf("3. Exit\n");
+	do{
+		printf("\n\nWould you like to encrypt or decrypt?\n");
+		printf("1. Encrypt\n");
+		printf("2. Decrypt\n");
+		printf("3. Exit\n");
+	
+		scanf("%d",&operation);
 
-	scanf("%d",&operation);
+	}
+	while(operation > 3 || operation < 1);
+
+
+
+	if(operation == 3){
+		exit(0);
+	}
 
 	printf("How much shift?\n");
 	scanf("%d",&shift);
@@ -23,8 +33,8 @@ void configureCipher(){
 		exit(1);
 	}
 
-
-	printf("Enter the phrase you wish to encrypt: \n");
+	
+	printf("Enter the phrase you wish to encrypt/decrypt: \n");
 	getchar();
 	fgets(unencryptedPhrase, MAX_LIMIT, stdin);
 	unencryptedPhrase[strcspn(unencryptedPhrase, "\n")] = 0;
@@ -38,7 +48,8 @@ void encryption(char *unencryptedPhrase, int shift){
 		int ascii = unencryptedPhrase[i];
 		ascii+=shift;
 		unencryptedPhrase[i] = ascii;
-	}	
+	}
+	printf("The encrypted phrase is = %s\n", unencryptedPhrase);
 }
 
 void decryption(char *unencryptedPhrase, int shift){
@@ -47,18 +58,20 @@ void decryption(char *unencryptedPhrase, int shift){
 		ascii-=shift;
 		unencryptedPhrase[i] = ascii;
 	}
+	printf("The decrypted phrase is = %s\n", unencryptedPhrase);
 }
 
 int main(){
-	configureCipher();
-	printf("The unencrypted phrase is : %s\n",unencryptedPhrase);
-
-	encryption(unencryptedPhrase, shift);
-	printf("The encrypted phrase is : %s\n",unencryptedPhrase);
-
-	decryption(unencryptedPhrase, shift);
-	printf("The encrypted phrase is : %s\n",unencryptedPhrase);
-
-	free(unencryptedPhrase);
+	while(1){
+		configureCipher();
+		if(operation == 1){
+			encryption(unencryptedPhrase,shift);
+			free(unencryptedPhrase);
+		}
+		else if(operation == 2){
+			decryption(unencryptedPhrase,shift);
+			free(unencryptedPhrase);
+		}
+	}
 	return 0;
 }
