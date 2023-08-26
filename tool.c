@@ -57,6 +57,23 @@ void configureCipher(){
 	fgets(unencryptedPhrase, MAX_LIMIT, stdin);
 	unencryptedPhrase[strcspn(unencryptedPhrase, "\n")] = 0;
 }
+
+void wrap_algorithm(int letter, int shift, int lower_limit, int upper_limit){
+	//letter in question, how much it goes forward
+	//check if letter and shift goes past the limit: go to the limit(122) ? break
+	//take into account how much shift is left
+	//go to the beginning (97), take one away from shift because z=>a is 1
+	//start again
+	int scale;
+	if (letter + shift >= upper_limit){
+		//either do the original ie. go to upper limit=>lower limit=>check again
+		//or go to lower limit immediately=>check again
+		scale = (upper_limit - letter)+1;	//get the length until the upper limit to take away from the shift
+		shift-=scale;
+		
+	}
+}
+
 void caesar_encryption(char *unencryptedPhrase, int shift){
 	for(int i = 0;i < strlen(unencryptedPhrase);i++){
 		int ascii = unencryptedPhrase[i];
