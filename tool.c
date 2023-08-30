@@ -58,35 +58,47 @@ void configureCipher(){
 	unencryptedPhrase[strcspn(unencryptedPhrase, "\n")] = 0;
 }
 
-void wrap_algorithm(int letter, int shift, int lower_limit, int upper_limit){
-	//letter in question, how much it goes forward
-	//check if letter and shift goes past the limit: go to the limit(122) ? break
+void wrap_algorithm(int *ascii, int shift, int lower_limit, int upper_limit){
+	//ascii in question, how much it goes forward
+	//check if ascii and shift goes past the limit: go to the limit(122) ? break
 	//take into account how much shift is left
 	//go to the beginning (97), take one away from shift because z=>a is 1
 	//start again
 	int scale;
-	if (letter + shift >= upper_limit){
+	if (*ascii + shift > upper_limit){
 		//either do the original ie. go to upper limit=>lower limit=>check again
 		//or go to lower limit immediately=>check again
-		scale = (upper_limit - letter)+1;	//get the length until the upper limit to take away from the shift
+		scale = (upper_limit - *ascii)+1;	//get the length until the upper limit to take away from the shift
 		shift-=scale;
+		*ascii = lower_limit;
+		wrap_algorithm(ascii,shift,lower_limit,upper_limit);
 		
+	}
+	else{
+	*ascii += shift;
 	}
 }
 
+void wrap_algorithm_reverse(int *ascii,int shift, int lower_limit,int upper_limit){	
+	int scale;
+	
+	if (*ascii - shift < lower_limit){
+		
+		scale = (*ascii - lower_limit)+1;	
+		shift-=scale;
+		*ascii = upper_limit;
+		wrap_algorithm_reverse(ascii,shift,lower_limit,upper_limit);
+
+	}
+	else{
+		*ascii -= shift;
+	}
+}
 void caesar_encryption(char *unencryptedPhrase, int shift){
 	for(int i = 0;i < strlen(unencryptedPhrase);i++){
 		int ascii = unencryptedPhrase[i];
 		//make into algorithm, maybe recursive
-		if(ascii + shift >= 122){
-			int temp = 122 - ascii;
-			ascii += temp;
-			shift-=temp;
-			ascii+=shift;
-		}
-		else{
-			ascii+=shift;
-		}
+		wrap_algorithm(&ascii, shift,97,122);	
 		unencryptedPhrase[i] = ascii;
 	}
 	printf("The encrypted phrase is = %s\n", unencryptedPhrase);
@@ -97,12 +109,7 @@ void caesar_encryption(char *unencryptedPhrase, int shift){
 void caesar_decryption(char *unencryptedPhrase, int shift){
 	for(int i = 0;i < strlen(unencryptedPhrase);i++){
 		int ascii = unencryptedPhrase[i];
-		if(ascii == 97){
-			ascii = 122;
-		}
-		else{
-			ascii-=shift;
-		}
+		//wrap_algorithm_reverse(&ascii, shift,122,97);	
 		unencryptedPhrase[i] = ascii;
 	}
 	printf("The decrypted phrase is = %s\n", unencryptedPhrase);
