@@ -82,8 +82,7 @@ void wrap_algorithm(int *ascii, int shift, int lower_limit, int upper_limit){
 void wrap_algorithm_reverse(int *ascii,int shift, int lower_limit,int upper_limit){	
 	int scale;
 	
-	if (*ascii - shift < lower_limit){
-		
+	if(*ascii - shift < lower_limit){
 		scale = (*ascii - lower_limit)+1;	
 		shift-=scale;
 		*ascii = upper_limit;
@@ -109,7 +108,7 @@ void caesar_encryption(char *unencryptedPhrase, int shift){
 void caesar_decryption(char *unencryptedPhrase, int shift){
 	for(int i = 0;i < strlen(unencryptedPhrase);i++){
 		int ascii = unencryptedPhrase[i];
-		//wrap_algorithm_reverse(&ascii, shift,122,97);	
+		wrap_algorithm_reverse(&ascii, shift,97,122);
 		unencryptedPhrase[i] = ascii;
 	}
 	printf("The decrypted phrase is = %s\n", unencryptedPhrase);
