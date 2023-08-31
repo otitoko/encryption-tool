@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #define MAX_LIMIT 1024
 
 int operation;
@@ -16,15 +17,14 @@ void shutdown(int exit_number){
 
 void configureCipher(){
 	do{
+		
 		printf("\n\nWould you like to encrypt or decrypt?\n");
 		printf("1. Encrypt\n");
 		printf("2. Decrypt\n");
 		printf("3. Exit\n");
 	
-		scanf("%d",&operation);
-
 	}
-	while(operation > 3 || operation < 1);
+	while(operation >= 1 && operation <= 3);
 	
 	shutdown(operation);
 	
@@ -37,7 +37,8 @@ void configureCipher(){
 		printf("3. Exit\n");
 
 		scanf("%d", &encryption_type);
-	}
+
+}
 	while(encryption_type > 3 || encryption_type < 1);
 
 	shutdown(encryption_type);
