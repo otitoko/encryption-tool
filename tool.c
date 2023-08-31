@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #define MAX_LIMIT 1024
 
 int operation;
@@ -22,9 +21,11 @@ void configureCipher(){
 		printf("1. Encrypt\n");
 		printf("2. Decrypt\n");
 		printf("3. Exit\n");
+
+		scanf("%d", &operation);
 	
 	}
-	while(operation >= 1 && operation <= 3);
+	while(operation > 3 || operation < 1);
 	
 	shutdown(operation);
 	
