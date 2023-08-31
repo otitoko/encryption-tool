@@ -127,7 +127,7 @@ void ext_caesar_encryption(char *unencryptedPhrase, int shift){
 	printf("The encrypted phrase is = %s\n", unencryptedPhrase);
 }
 
-void decryption(char *unencryptedPhrase, int shift){
+void ext_caesar_decryption(char *unencryptedPhrase, int shift){
 	for(int i = 0; i < strlen(unencryptedPhrase); i++){
 		int ascii = unencryptedPhrase[i];
 		ascii-=shift;
@@ -135,21 +135,28 @@ void decryption(char *unencryptedPhrase, int shift){
 	}
 	printf("The decrypted phrase is = %s\n", unencryptedPhrase);
 }
-/**
+
 void operation_decider(operation, encryption_type){
 	if(operation == 1){
 		if(encryption_type == 1){
+			caesar_encryption(unencryptedPhrase,shift);
+		}
+		else if(encryption_type == 2){
 			ext_caesar_encryption(unencryptedPhrase,shift);
 		}
 	}
+	else if(operation == 2){
+		if (encryption_type == 1){
+			caesar_decryption(unencryptedPhrase, shift);
+		}
+		else if(encryption_type == 2){
+			ext_caesar_decryption(unencryptedPhrase,shift);}
+	}
 }
-**/
+
 int main(){
 	while(1){
 		configureCipher();
-		caesar_encryption(unencryptedPhrase,shift);
-	
-		caesar_decryption(unencryptedPhrase, shift);
-		}
+		operation_decider(operation, encryption_type);}
 	return 0;
 }
